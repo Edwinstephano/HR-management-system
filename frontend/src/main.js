@@ -122,8 +122,9 @@ router.beforeEach(async (to, _, next) => {
 		if (to.path === "/update-password") {
 			return next(false)
 		} else if (to.name !== "Login") {
-			next({ name: "Login" })
+			return next({ name: "Login" })
 		}
+		return next()
 	}
 
 	if (isLoggedIn && to.name !== "InvalidEmployee") {
@@ -134,13 +135,13 @@ router.beforeEach(async (to, _, next) => {
 			!employeeResource?.data ||
 			employeeResource?.data?.user_id !== userResource.data.name
 		) {
-			next({ name: "InvalidEmployee" })
+			return next({ name: "InvalidEmployee" })
 		} else if (to.name === "Login") {
-			next({ name: "Home" })
+			return next({ name: "Home" })
 		} else {
-			next()
+			return next()
 		}
 	} else {
-		next()
+		return next()
 	}
 })
