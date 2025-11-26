@@ -6,7 +6,8 @@ ion-modal {
 
 input:disabled {
 	--webkit-text-fill-color: var(--tw-text-color);
-	opacity: 0.9; /* required on iOS */
+	opacity: 0.9;
+	/* required on iOS */
 	color: var(--tw-text-color);
 }
 
@@ -25,6 +26,8 @@ body {
 
 /* For IE, Edge and Firefox */
 .hide-scrollbar {
-	-ms-overflow-style: none; /* IE and Edge */
-	scrollbar-width: none; /* Firefox */
+	-ms-overflow-style: none;
+	/* IE and Edge */
+	scrollbar-width: none;
+	/* Firefox */
 }

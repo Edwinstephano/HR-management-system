@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col h-full w-full" v-if="isFormReady">
-		<div class="w-full h-full bg-white sm:w-96 flex flex-col">
+		<div class="w-full h-full bg-white flex flex-col md:max-w-5xl md:mx-auto md:my-8 md:rounded-lg md:shadow-lg md:border md:border-gray-100 overflow-hidden">
 			<header
 				class="flex flex-row bg-white shadow-sm py-4 px-3 items-center sticky top-0 z-[1000]"
 			>
@@ -129,7 +129,7 @@
 					</template>
 				</template>
 
-				<div class="flex flex-col space-y-4 p-4" v-else>
+				<div class="grid grid-cols-1 md:grid-cols-2 gap-6 p-6" v-else>
 					<FormField
 						v-for="field in props.fields"
 						:key="field.name"
@@ -171,7 +171,7 @@
 			<!-- custom form button eg: Download button in salary slips -->
 			<div
 				v-if="!showFormButton"
-				class="px-4 pt-4 pb-4 standalone:pb-safe-bottom sm:w-96 bg-white sticky bottom-0 w-full drop-shadow-xl z-40 border-t rounded-t-lg"
+				class="px-4 pt-4 pb-4 standalone:pb-safe-bottom bg-white sticky bottom-0 w-full drop-shadow-xl z-40 border-t rounded-t-lg"
 			>
 				<slot name="formButton"></slot>
 			</div>
@@ -187,7 +187,7 @@
 			<!-- save/submit/cancel -->
 			<div
 				v-else-if="isFormDirty || (!workflow?.hasWorkflow && formButton)"
-				class="px-4 pt-4 pb-4 standalone:pb-safe-bottom sm:w-96 bg-white sticky bottom-0 w-full drop-shadow-xl z-40 border-t rounded-t-lg"
+				class="px-4 pt-4 pb-4 standalone:pb-safe-bottom bg-white sticky bottom-0 w-full drop-shadow-xl z-40 border-t rounded-t-lg"
 			>
 				<ErrorMessage
 					class="mb-2"

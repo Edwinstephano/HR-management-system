@@ -1,7 +1,7 @@
 <template>
-	<div class="flex flex-col bg-white rounded mt-5 overflow-auto" v-if="props.items?.length">
+	<div class="flex flex-col bg-white rounded-lg shadow-sm border border-gray-100 mt-5 overflow-hidden" v-if="props.items?.length">
 		<div
-			class="flex flex-row p-3.5 items-center justify-between border-b cursor-pointer"
+			class="flex flex-row p-4 items-center justify-between border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors duration-150 last:border-b-0"
 			v-for="link in props.items"
 			:key="link.name"
 			@click="openRequestModal(link)"

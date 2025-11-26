@@ -6,6 +6,7 @@
 				v-if="holidays?.data?.length"
 				id="open-holiday-list"
 				class="text-sm text-gray-800 font-semibold cursor-pointer underline underline-offset-2"
+				@click="isModalOpen = true"
 			>
 				{{ __("View All") }}
 			</div>
@@ -35,33 +36,39 @@
 	<ion-modal
 		ref="modal"
 		v-if="holidays?.data?.length"
-		trigger="open-holiday-list"
+		:is-open="isModalOpen"
+		@didDismiss="isModalOpen = false"
 		:initial-breakpoint="1"
 		:breakpoints="[0, 1]"
 	>
-		<div class="bg-white w-full flex flex-col items-center justify-center pb-5">
-			<div class="w-full pt-8 pb-5 border-b text-center">
+		<div class="bg-white w-full h-full flex flex-col sm:h-auto sm:max-h-[80vh] sm:max-w-2xl sm:rounded-lg overflow-hidden">
+			<div class="flex flex-row items-center justify-between p-4 border-b sticky top-0 bg-white z-10">
 				<span class="text-gray-900 font-bold text-lg">{{ __("Holiday List") }}</span>
+				<Button variant="ghost" @click="isModalOpen = false">
+					<FeatherIcon name="x" class="h-5 w-5 text-gray-500" />
+				</Button>
 			</div>
-			<div class="w-full flex flex-col items-center justify-center gap-5 p-4">
-				<div
-					v-for="holiday in holidays.data"
-					:key="holiday.holiday_date"
-					class="flex flex-row items-center justify-between w-full"
-				>
-					<div class="flex flex-row items-center gap-3 grow">
-						<FeatherIcon name="calendar" class="h-5 w-5 text-gray-500" />
-						<div class="text-base font-normal text-gray-800">
-							{{ __(holiday.description) }}
-						</div>
-					</div>
+			<div class="flex-1 overflow-y-auto p-4">
+				<div class="flex flex-col gap-4">
 					<div
-						:class="[
-							'text-base font-bold',
-							holiday.is_upcoming ? 'text-gray-800' : 'text-gray-500',
-						]"
+						v-for="holiday in holidays.data"
+						:key="holiday.holiday_date"
+						class="flex flex-row items-center justify-between w-full p-2 hover:bg-gray-50 rounded transition-colors"
 					>
-						{{ holiday.formatted_holiday_date }}
+						<div class="flex flex-row items-center gap-3 grow">
+							<FeatherIcon name="calendar" class="h-5 w-5 text-gray-500" />
+							<div class="text-base font-normal text-gray-800">
+								{{ __(holiday.description) }}
+							</div>
+						</div>
+						<div
+							:class="[
+								'text-base font-bold whitespace-nowrap',
+								holiday.is_upcoming ? 'text-gray-800' : 'text-gray-500',
+							]"
+						>
+							{{ holiday.formatted_holiday_date }}
+						</div>
 					</div>
 				</div>
 			</div>
@@ -70,13 +77,15 @@
 </template>
 
 <script setup>
-import { inject, computed } from "vue"
+import { inject, computed, ref } from "vue"
 import { IonModal } from "@ionic/vue"
 import { FeatherIcon, createResource } from "frappe-ui"
 
 const employee = inject("$employee")
 const dayjs = inject("$dayjs")
 const __ = inject("$translate")
+const modal = ref(null)
+const isModalOpen = ref(false)
 
 const holidays = createResource({
 	url: "hrms.api.get_holidays_for_employee",
