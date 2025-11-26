@@ -61,6 +61,11 @@ const formFields = createResource({
 })
 formFields.reload()
 
+// Initialize employee for new leave applications
+if (!props.id) {
+	leaveApplication.value.employee = currEmployee.value
+}
+
 const leaveApprovalDetails = createResource({
 	url: "hrms.api.get_leave_approval_details",
 	params: { employee: currEmployee.value },
